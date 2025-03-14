@@ -28,6 +28,6 @@ const ProductSchema = new Schema<IProduct>(
   }
 )
 
-const Product = model<IProduct>('Product', ProductSchema)
+const Product = model<IProduct>('Product', ProductSchema, 'productos')
 
 export default Product

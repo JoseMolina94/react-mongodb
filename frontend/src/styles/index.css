@@ -1,0 +1,16 @@
+.font-xs {
+  font-size: 12px;
+}
+
+.font-sm {
+  font-size: 14px;
+}
+
+.tag {
+  background-color: lightgrey;
+  font-weight: 600;
+  width: fit-content;
+  padding: 0 .5rem;
+  border-radius: 1rem;
+  text-transform: capitalize;
+}
