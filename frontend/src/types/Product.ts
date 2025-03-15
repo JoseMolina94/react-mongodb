@@ -11,3 +11,10 @@ export interface Product {
   createdAt?: Date | string
   updatedAt?: Date | string
 }
+
+export interface SpecialPrice {
+  userID: string
+  productID: string
+  _id?: string
+  value: number
+}

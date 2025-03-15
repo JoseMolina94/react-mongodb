@@ -1,5 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
-import { getProducts, createProduct } from '../../services/products'
+import { useState, useContext } from 'react';
 import { ProductManageContext } from '../../contexts/ProductManageContext';
 import { Product } from '../../types/Product';
 
@@ -7,26 +6,11 @@ import './styles.css'
 
 
 export default function ProductList() {
-  const { selectedProduct, setSelectedProduct } = useContext(ProductManageContext)
-  const [products, setProducts] = useState<Product[]>([]);
-
-  const fetchProducts = async () => {
-    try {
-      const data = await getProducts();
-      setProducts(data);
-    } catch (error) {
-      console.error('Error obteniendo productos:', error);
-      setProducts([])
-    }
-  };
+  const { products, setSelectedProduct } = useContext(ProductManageContext)
 
   const selectProduct = (product: Product) => {
     setSelectedProduct(product)
   }
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
 
   return (
     <div className='product-list' >

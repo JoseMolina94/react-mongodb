@@ -1,0 +1,15 @@
+.input {
+  display: block;
+}
+
+.input p {
+  font-size: 12px;
+}
+
+.input input {
+  border: 1px solid lightgrey;
+  padding: .25rem;
+  border-radius: .5rem;
+  font-size: 12px;
+  width: 100%;
+}
