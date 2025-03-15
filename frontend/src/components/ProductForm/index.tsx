@@ -4,6 +4,8 @@ import Input from "../Commons/Input"
 import DropDown from "../Commons/DropDown"
 import { ProductManageContext } from "../../contexts/ProductManageContext"
 
+import './style.css'
+
 const DEF_VALUE = {
   userID: '',
   productID: '',
@@ -12,7 +14,7 @@ const DEF_VALUE = {
 
 export default function ProductForm() {
   const [formState, setFormState] = useState<SpecialPrice>(DEF_VALUE)
-  const { products } = useContext(ProductManageContext)
+  const { products, users } = useContext(ProductManageContext)
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -30,13 +32,17 @@ export default function ProductForm() {
   };
 
   return (
-    <div>
+    <div className="product-form" >
       <DropDown
         name="userID"
         value={formState.userID}
-        options={[]}
+        options={users || []}
         label="Usuario Relacionado"
         onChange={handleDropDownChange}
+        valueProp='_id'
+        labelProp="name"
+        getCompleteObject
+        required
       />
 
       <DropDown
