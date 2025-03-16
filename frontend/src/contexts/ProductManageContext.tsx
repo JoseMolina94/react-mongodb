@@ -1,8 +1,9 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react"
-import { Product } from "../types/Product"
+import { Product, SpecialPrice } from "../types/Product"
 import { getProducts } from "../services/products"
 import { getUsers } from "../services/users/getUsers"
 import { User } from "../types/User"
+import { getSpecialPrices } from "../services/specialPrices"
 
 type ProductManageContextProviderProps = {
   children: ReactNode
@@ -13,44 +14,71 @@ type ProductManageContextProviderValue = {
   setSelectedProduct: Dispatch<SetStateAction<Product | null>> | ((value: Product) => void)
   products: Product[]
   users: User[]
+  userSelected: User | null
+  setUserSelected: Dispatch<SetStateAction<User | null>> | ((value: User) => void)
+  specialPrices: SpecialPrice[]
 }
 
 export const ProductManageContext = createContext<ProductManageContextProviderValue>({
   selectedProduct: null,
   setSelectedProduct: (value: Product) => {},
   products: [],
-  users: []
+  users: [],
+  userSelected: null,
+  setUserSelected: (value: User) => {},
+  specialPrices: []
 })
 
 export default function ProductManageContextProvider ({children} : ProductManageContextProviderProps) {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  const [userSelected, setUserSelected] = useState<User | null>(null)
+
   const [products, setProducts] = useState<Product[]>([])
   const [users, setUsers] = useState<User[]>([])
+  const [specialPrices, setSpecialPrices] = useState<SpecialPrice[]>([])
 
   const fetchProducts = async () => {
     try {
-      const data = await getProducts();
-      setProducts(data);
+      const data = await getProducts()
+      setProducts(data)
     } catch (error) {
-      console.error('Error obteniendo productos:', error);
+      console.error('Error obteniendo productos:', error)
       setProducts([])
     }
   }
 
   const fetchUsers = async () => {
     try {
-      const data = await getUsers();
-      setUsers(data);
+      const data = await getUsers()
+      setUsers(data)
     } catch (error) {
-      console.error('Error obteniendo los usuarios:', error);
+      console.error('Error obteniendo los usuarios:', error)
       setUsers([])
+    }
+  }
+
+  const fetchSpecialPrices = async () => {
+    try {
+      const data = await getSpecialPrices(userSelected?._id)
+      setSpecialPrices(data)
+    } catch (error) {
+      console.error('Error obteniendo los precios especiales segun el usuario:', error)
+      setSpecialPrices([])
     }
   }
 
   useEffect(() => {
     fetchUsers()
     fetchProducts()
-  }, []);
+  }, [])
+
+  useEffect(() => {
+    if (userSelected?._id) {
+      fetchSpecialPrices()
+    }
+  }, [userSelected?._id])
+
+  console.log('PPPP', specialPrices)
 
   return (
     <ProductManageContext.Provider
@@ -58,7 +86,10 @@ export default function ProductManageContextProvider ({children} : ProductManage
         selectedProduct,
         setSelectedProduct,
         products,
-        users
+        users,
+        userSelected,
+        setUserSelected,
+        specialPrices
       }}
     >
       {children}

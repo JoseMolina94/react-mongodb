@@ -1,8 +1,8 @@
-import { ChangeEvent, useContext, useState } from "react"
-import { SpecialPrice } from "../../types/Product"
+import { ChangeEvent, FormEvent, useContext, useState } from "react"
 import Input from "../Commons/Input"
 import DropDown from "../Commons/DropDown"
 import { ProductManageContext } from "../../contexts/ProductManageContext"
+import { createSpecialPrice } from "../../services/specialPrices"
 
 import './style.css'
 
@@ -13,26 +13,58 @@ const DEF_VALUE = {
 }
 
 export default function ProductForm() {
-  const [formState, setFormState] = useState<SpecialPrice>(DEF_VALUE)
+  const [formState, setFormState] = useState<any>(DEF_VALUE)
   const { products, users } = useContext(ProductManageContext)
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormState({
       ...formState,
-      [name]: value,
-    });
-  };
+      [name]: parseInt(value),
+    })
+  }
 
   const handleDropDownChange = (name: string, value: any) => {
     setFormState({
       ...formState,
       [name]: value,
-    });
-  };
+    })
+  }
+
+  const clearForm = () => {
+    setFormState(DEF_VALUE)
+  }
+
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+
+    try {
+      const data = {
+        value: parseInt(formState.value),
+        userID: formState.userID._id,
+        productID: formState.productID._id,
+        _id: formState._id || null
+      }
+      console.log('DATA', data)
+
+      const response = await createSpecialPrice(data)
+      
+      if (response?._id) {
+        alert('Precio especial guardado!!')
+        clearForm()
+      } else {
+        alert('Error al crear el precio especial')
+      }
+    } catch(err: any) {
+      console.error(err)
+    }
+  }
 
   return (
-    <div className="product-form" >
+    <form 
+      onSubmit={onSubmit} 
+      className="product-form"
+    >
       <DropDown
         name="userID"
         value={formState.userID}
@@ -58,11 +90,25 @@ export default function ProductForm() {
       />
 
       <Input
-        name='price'
+        name='value'
         value={formState.value}
         onChange={handleInputChange}
         label='Precio Especial'
       />
-    </div>
+
+      <div className="btn-container">
+        <button type="submit" className="btn-create btn-medium">
+          Guardar
+        </button>
+
+        <button 
+          type="button" 
+          className="btn-remove btn-medium"
+          onClick={() => clearForm()}
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
   )
 }

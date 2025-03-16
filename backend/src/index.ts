@@ -4,6 +4,8 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 
 import productRoutes from './routes/productRoutes'
+import userRoutes from './routes/userRoutes'
+import specialPriceRoutes from './routes/specialPriceRoutes'
 
 dotenv.config()
 
@@ -42,6 +44,8 @@ app.use(cors({
 app.use(express.json())
 
 app.use('/api/products', productRoutes)
+app.use('/api/users', userRoutes)
+app.use('/api/special-prices', specialPriceRoutes)
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`)

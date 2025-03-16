@@ -3,4 +3,19 @@
   border: 1px solid lightgrey;
   border-radius: .5rem;
   padding: .5rem;
+
+  width: 100%;
+  height: fit-content;
+
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+
+.product-form .btn-container {
+  margin-top: .5rem;
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  align-items: center;
 }

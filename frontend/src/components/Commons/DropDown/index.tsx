@@ -81,7 +81,6 @@ export default function DropDown (props : DropDownProps) {
           value={searchTerm}
           onChange={(e) => onChangeFunc(e)}
           onFocus={() => setOnOpen(true)}
-          onBlur={() => setOnOpen(false)}
           required={required}
         />
 
