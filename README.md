@@ -10,7 +10,7 @@ Este proyecto fue desarrollado utilizando **TypeScript** tanto en el frontend co
 
 Además, se utilizó **React** para construir una interfaz de usuario dinámica y reactiva, y conectandose a una base de datos en **MongoDB** otorgada para esta prueba.
 
-## 2. Cómo Arrancar el Proyecto
+## 2. Cómo arrancar el proyecto
 
 Sigue estos pasos para arrancar el proyecto en tu entorno local. Preferiblemente en terminales separadas.
 
