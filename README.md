@@ -16,14 +16,14 @@ Sigue estos pasos para arrancar el proyecto en tu entorno local. Preferiblemente
 
 ### Backend
 
-  **cd backend**
-  **npm install**
+  **cd backend** ->
+  **npm install** ->
   **npm run dev**
 
 ### Frontend
 
-  **cd frontend**
-  **npm install**
+  **cd frontend** ->
+  **npm install** ->
   **npm start**
 
 ## 3. Notas adicionales
