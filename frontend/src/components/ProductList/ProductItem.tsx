@@ -2,6 +2,7 @@
 import { useContext } from 'react'
 import { Product, SpecialPrice } from '../../types/Product'
 import { ProductManageContext } from '../../contexts/ProductManageContext'
+import { deleteSpecialPrice } from '../../services/specialPrices'
 
 import './styles.css'
 
@@ -10,7 +11,7 @@ type ProductItemProps = {
 }
 
 export default function ProductItem({ product }: ProductItemProps) {
-  const { setSelectedProduct, specialPrices, userSelected, setSpecialPriceSelected } = useContext(ProductManageContext)
+  const { setSelectedProduct, specialPrices, userSelected, setSpecialPriceSelected, fetchSpecialPrices } = useContext(ProductManageContext)
 
   const selectProduct = (product: Product) => {
     setSelectedProduct(product)
@@ -36,6 +37,24 @@ export default function ProductItem({ product }: ProductItemProps) {
     }
 
     return product?.price || 0
+  }
+
+  const deleteSpecialPriceFunc = async () => {
+    const found = specialPrices.find((specialPrice: SpecialPrice) => (
+      ((specialPrice?.userID || '') === (userSelected?._id || '')) &&
+      ((specialPrice?.productID || '') === (product?._id || ''))
+    ))
+
+    if (found?._id) {
+      try {
+        const response = await deleteSpecialPrice(found?._id)
+        alert(response.message)
+        fetchSpecialPrices()
+      } catch (err: any) {
+        alert('Error al borrar el precio especial')
+      }
+    }
+
   }
 
   return (
@@ -65,17 +84,27 @@ export default function ProductItem({ product }: ProductItemProps) {
       <td className='item-cell'>
         {
           userSelected?._id &&
-          <div className='actions' >
-            <button
-              className={(getPriceToShow() !== product?.price) ? 'btn-update' : 'btn-create'}
-              onClick={() => selectProduct(product)}
-              type='button'
-            >
-              {(getPriceToShow() !== product?.price) ? 'Editar precio personalizado' : 'Crear precio personalizado'}
-            </button>
-          </div>
-        }
+            <div className='actions' >
+              <button
+                className={(getPriceToShow() !== product?.price) ? 'btn-update' : 'btn-create'}
+                onClick={() => selectProduct(product)}
+                type='button'
+              >
+                {(getPriceToShow() !== product?.price) ? 'Editar precio personalizado' : 'Crear precio personalizado'}
+              </button>
 
+              {
+                (getPriceToShow() !== product?.price) &&
+                  <button
+                    className='btn-remove'
+                    onClick={() => deleteSpecialPriceFunc()}
+                    type='button'
+                  >
+                    Eliminar precio personalizado
+                  </button>
+              }
+            </div>
+        }
       </td>
     </tr>
   )

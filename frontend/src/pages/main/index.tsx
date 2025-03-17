@@ -7,7 +7,7 @@ import UserPricesFilter from "../../components/UserPricesFilter"
 import './style.css'
 
 export default function MainPage () {
-  const { selectedProduct } = useContext(ProductManageContext)
+  const { selectedProduct, specialPriceSelected } = useContext(ProductManageContext)
 
   return (
     <div className="layout">
@@ -20,7 +20,7 @@ export default function MainPage () {
         <ProductList />
 
         {
-          selectedProduct?._id &&
+          (specialPriceSelected?._id || selectedProduct?._id) &&
             <ProductSpecialPriceForm />
         }
       </div>

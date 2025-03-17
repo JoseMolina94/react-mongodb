@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react"
 import Input from "../Commons/Input"
 import Select from "../Commons/Select"
 import { ProductManageContext } from "../../contexts/ProductManageContext"
-import { createSpecialPrice } from "../../services/specialPrices"
+import { createSpecialPrice, updateSpecialPrice } from "../../services/specialPrices"
 
 import './style.css'
 import { SpecialPrice } from "../../types/Product"
@@ -22,7 +22,9 @@ export default function ProductSpecialPriceForm() {
     userSelected,
     selectedProduct, 
     setSpecialPriceSelected,
-    specialPrices
+    specialPrices,
+    fetchSpecialPrices,
+    setSelectedProduct
   } = useContext(ProductManageContext)
 
   const findExistSpecialPrice = () => {
@@ -57,11 +59,11 @@ export default function ProductSpecialPriceForm() {
 
   const clearForm = () => {
     setFormState(DEF_VALUE)
+    setSpecialPriceSelected(null)
+    setSelectedProduct(null)
   }
 
-  const onSubmit = async (e: FormEvent) => {
-    e.preventDefault()
-
+  const createSpecialPriceFunc = async () => {
     try {
       const data = {
         value: parseInt(formState.value),
@@ -74,11 +76,47 @@ export default function ProductSpecialPriceForm() {
       if (response?._id) {
         alert('Precio especial guardado!!')
         clearForm()
+        fetchSpecialPrices()
       } else {
         alert('Error al crear el precio especial')
+        fetchSpecialPrices()
       }
     } catch(err: any) {
       console.error(err)
+    }
+  }
+
+  const updateSpecialPriceFunc = async () => {
+    try {
+      const data = {
+        value: parseInt(formState.value),
+        userID: formState.userID,
+        productID: formState.productID,
+        _id: specialPriceSelected?._id
+      }
+
+      const response = await updateSpecialPrice(data)
+      
+      if (response?._id) {
+        alert('Precio especial guardado!!')
+        clearForm()
+        fetchSpecialPrices()
+      } else {
+        alert('Error al crear el precio especial')
+        fetchSpecialPrices()
+      }
+    } catch(err: any) {
+      console.error(err)
+    }
+  }
+
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    
+    if (specialPriceSelected?._id) {
+      updateSpecialPriceFunc()
+    } else {
+      createSpecialPriceFunc()
     }
   }
 
