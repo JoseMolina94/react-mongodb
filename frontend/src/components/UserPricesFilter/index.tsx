@@ -1,26 +1,33 @@
 import { useContext } from "react"
 import { ProductManageContext } from "../../contexts/ProductManageContext"
-import DropDown from "../Commons/DropDown"
-
+import Select from "../Commons/Select"
+import { User } from "../../types/User";
 
 export default function UserPricesFilter () {
   const { users, userSelected, setUserSelected } = useContext(ProductManageContext)
 
-  const handleDropDownChange = (name: string, value: any) => {
-    setUserSelected(value)
-  }
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const userID = event.target.value;
+    const foundUser = users.find((user: User) => user?._id === userID)
+
+    if (foundUser) {
+      setUserSelected(foundUser)
+    } else {
+      setUserSelected(null)
+    }
+};
 
   return (
     <div>
-      <DropDown
+      <Select
         name="user"
-        value={userSelected || ''}
+        value={userSelected?._id || ''}
         options={users || []}
         label="Precios especiales del usuario"
-        onChange={handleDropDownChange}
+        placeholder="Seleccione un usuario"
+        onChange={handleChange}
         valueProp='_id'
         labelProp="name"
-        getCompleteObject
         required
       />
     </div>

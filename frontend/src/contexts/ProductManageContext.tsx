@@ -11,21 +11,21 @@ type ProductManageContextProviderProps = {
 
 type ProductManageContextProviderValue = {
   selectedProduct: Product | null
-  setSelectedProduct: Dispatch<SetStateAction<Product | null>> | ((value: Product) => void)
+  setSelectedProduct: Dispatch<SetStateAction<Product | null>> | ((value: Product | null) => void)
   products: Product[]
   users: User[]
   userSelected: User | null
-  setUserSelected: Dispatch<SetStateAction<User | null>> | ((value: User) => void)
+  setUserSelected: Dispatch<SetStateAction<User | null>> | ((value: User | null) => void)
   specialPrices: SpecialPrice[]
 }
 
 export const ProductManageContext = createContext<ProductManageContextProviderValue>({
   selectedProduct: null,
-  setSelectedProduct: (value: Product) => {},
+  setSelectedProduct: (value: Product | null) => {},
   products: [],
   users: [],
   userSelected: null,
-  setUserSelected: (value: User) => {},
+  setUserSelected: (value: User | null) => {},
   specialPrices: []
 })
 
@@ -77,8 +77,6 @@ export default function ProductManageContextProvider ({children} : ProductManage
       fetchSpecialPrices()
     }
   }, [userSelected?._id])
-
-  console.log('PPPP', specialPrices)
 
   return (
     <ProductManageContext.Provider

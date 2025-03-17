@@ -30,7 +30,7 @@ export default function ProductItem({ product }: ProductItemProps) {
   }
 
   return (
-    <tr className='item'>
+    <tr className={`item ${(getPriceToShow() !== product?.price) && 'remark-green'}`}>
       <td className='item-cell' >{product.name}</td>
       <td className='item-cell font-xs' >{product.description}</td>
       <td 

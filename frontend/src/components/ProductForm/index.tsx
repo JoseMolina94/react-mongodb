@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useContext, useState } from "react"
 import Input from "../Commons/Input"
-import DropDown from "../Commons/DropDown"
+import Select from "../Commons/Select"
 import { ProductManageContext } from "../../contexts/ProductManageContext"
 import { createSpecialPrice } from "../../services/specialPrices"
 
@@ -24,7 +24,7 @@ export default function ProductForm() {
     })
   }
 
-  const handleDropDownChange = (name: string, value: any) => {
+  const handleSelectChange = (name: string, value: string) => {
     setFormState({
       ...formState,
       [name]: value,
@@ -41,11 +41,9 @@ export default function ProductForm() {
     try {
       const data = {
         value: parseInt(formState.value),
-        userID: formState.userID._id,
-        productID: formState.productID._id,
-        _id: formState._id || null
+        userID: formState.userID,
+        productID: formState.productID,
       }
-      console.log('DATA', data)
 
       const response = await createSpecialPrice(data)
       
@@ -65,27 +63,25 @@ export default function ProductForm() {
       onSubmit={onSubmit} 
       className="product-form"
     >
-      <DropDown
+      <Select
         name="userID"
         value={formState.userID}
         options={users || []}
         label="Usuario Relacionado"
-        onChange={handleDropDownChange}
+        onChange={(e :ChangeEvent<HTMLSelectElement>) => handleSelectChange('userID', e.target.value)}
         valueProp='_id'
         labelProp="name"
-        getCompleteObject
         required
       />
 
-      <DropDown
+      <Select
         name="productID"
         value={formState.productID}
         options={products || []}
         label="Producto Relacionado"
-        onChange={handleDropDownChange}
+        onChange={(e :ChangeEvent<HTMLSelectElement>) => handleSelectChange('productID', e.target.value)}
         valueProp='_id'
         labelProp="name"
-        getCompleteObject
         required
       />
 
