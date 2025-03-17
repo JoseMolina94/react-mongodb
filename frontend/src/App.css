@@ -6,11 +6,6 @@ body {
 * {
 margin: 0
 }
-
-.layout {
-  display: grid;
-  grid-template-columns: 1fr;
-}
  
 .form-active {
   grid-template-columns: 1fr 0.25fr;
@@ -48,4 +43,5 @@ button {
   justify-content: space-between;
   align-items: center;
   gap: .5rem;
+  padding-left: 1rem;
 }

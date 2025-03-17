@@ -17,6 +17,8 @@ type ProductManageContextProviderValue = {
   userSelected: User | null
   setUserSelected: Dispatch<SetStateAction<User | null>> | ((value: User | null) => void)
   specialPrices: SpecialPrice[]
+  specialPriceSelected: SpecialPrice | null
+  setSpecialPriceSelected: Dispatch<SetStateAction<SpecialPrice | null>> | ((value: SpecialPrice | null) => void)
 }
 
 export const ProductManageContext = createContext<ProductManageContextProviderValue>({
@@ -26,12 +28,15 @@ export const ProductManageContext = createContext<ProductManageContextProviderVa
   users: [],
   userSelected: null,
   setUserSelected: (value: User | null) => {},
-  specialPrices: []
+  specialPrices: [],
+  specialPriceSelected: null,
+  setSpecialPriceSelected: (value: SpecialPrice | null) => {},
 })
 
 export default function ProductManageContextProvider ({children} : ProductManageContextProviderProps) {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [userSelected, setUserSelected] = useState<User | null>(null)
+  const [specialPriceSelected, setSpecialPriceSelected] = useState<SpecialPrice | null>(null)
 
   const [products, setProducts] = useState<Product[]>([])
   const [users, setUsers] = useState<User[]>([])
@@ -87,7 +92,9 @@ export default function ProductManageContextProvider ({children} : ProductManage
         users,
         userSelected,
         setUserSelected,
-        specialPrices
+        specialPrices,
+        specialPriceSelected,
+        setSpecialPriceSelected
       }}
     >
       {children}

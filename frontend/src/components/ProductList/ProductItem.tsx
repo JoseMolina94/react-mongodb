@@ -10,10 +10,19 @@ type ProductItemProps = {
 }
 
 export default function ProductItem({ product }: ProductItemProps) {
-  const { setSelectedProduct, specialPrices, userSelected } = useContext(ProductManageContext)
+  const { setSelectedProduct, specialPrices, userSelected, setSpecialPriceSelected } = useContext(ProductManageContext)
 
   const selectProduct = (product: Product) => {
     setSelectedProduct(product)
+
+    const found = specialPrices.find((specialPrice: SpecialPrice) => (
+      ((specialPrice?.userID || '') === (userSelected?._id || '')) &&
+      ((specialPrice?.productID || '') === (product?._id || ''))
+    ))
+
+    if (found) {
+      setSpecialPriceSelected(found)
+    }
   }
 
   const getPriceToShow = () => {
@@ -55,11 +64,11 @@ export default function ProductItem({ product }: ProductItemProps) {
       <td className='item-cell'>
         <div className='actions' >
           <button
-            className='btn-update'
+            className={userSelected?._id ? 'btn-update' : 'btn-create'}
             onClick={() => selectProduct(product)}
             type='button'
           >
-            Editar
+            { userSelected?._id ? 'Editar precio personalizado' : 'Crear precio personalizado'}
           </button>
         </div>
       </td>

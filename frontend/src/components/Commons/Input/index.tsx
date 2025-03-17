@@ -21,14 +21,15 @@ export default function Input (props: Input) {
   } = props
 
   return (
-    <div className="input">
-      <p>{label}</p>
+    <div>
+      <p className="font-xs">{label}</p>
       <input
         type={type}
         name={name}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        className="input"
       />
     </div>
   )

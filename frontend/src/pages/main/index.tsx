@@ -4,17 +4,19 @@ import { ProductManageContext } from "../../contexts/ProductManageContext"
 import ProductForm from "../../components/ProductForm"
 import UserPricesFilter from "../../components/UserPricesFilter"
 
+import './style.css'
+
 export default function MainPage () {
   const { selectedProduct } = useContext(ProductManageContext)
 
   return (
-    <div>
+    <div className="layout">
       <div className="page-header">
         <h1>Lista de Productos</h1>
         <UserPricesFilter />
       </div>
       
-      <div className={`layout ${selectedProduct?._id ? 'form-active' : ''} `} >
+      <div className={`product-list-container ${selectedProduct?._id ? 'form-active' : ''} `} >
         <ProductList />
 
         {

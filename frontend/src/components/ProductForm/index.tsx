@@ -68,6 +68,7 @@ export default function ProductForm() {
         value={formState.userID}
         options={users || []}
         label="Usuario Relacionado"
+        placeholder="Seleccione un usuario"
         onChange={(e :ChangeEvent<HTMLSelectElement>) => handleSelectChange('userID', e.target.value)}
         valueProp='_id'
         labelProp="name"
@@ -79,6 +80,7 @@ export default function ProductForm() {
         value={formState.productID}
         options={products || []}
         label="Producto Relacionado"
+        placeholder="Seleccione un producto"
         onChange={(e :ChangeEvent<HTMLSelectElement>) => handleSelectChange('productID', e.target.value)}
         valueProp='_id'
         labelProp="name"
@@ -93,7 +95,10 @@ export default function ProductForm() {
       />
 
       <div className="btn-container">
-        <button type="submit" className="btn-create btn-medium">
+        <button 
+          type="submit" 
+          className="btn-create btn-medium"
+        >
           Guardar
         </button>
 

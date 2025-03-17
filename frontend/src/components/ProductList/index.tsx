@@ -26,7 +26,10 @@ export default function ProductList() {
         </thead>
         <tbody>
           {products.map((product: Product, index: number) => (
-            <ProductItem product={product} key={`product-item-${index}`} />
+            <ProductItem 
+              product={product} 
+              key={`product-item-${index}`} 
+            />
           ))}
         </tbody>
       </table>
