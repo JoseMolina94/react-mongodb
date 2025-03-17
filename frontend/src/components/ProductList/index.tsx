@@ -7,7 +7,7 @@ import ProductItem from './ProductItem';
 
 
 export default function ProductList() {
-  const { products } = useContext(ProductManageContext)
+  const { products, userSelected } = useContext(ProductManageContext)
 
   return (
     <div className='product-list' >
@@ -21,7 +21,9 @@ export default function ProductList() {
             <th className='header-cell' >Marca</th>
             <th className='header-cell' >SKU</th>
             <th className='header-cell' >Etiquetas</th>
-            <th className='header-cell' >Acciones</th>
+            {
+              userSelected?._id && <th className='header-cell' >Acciones</th>
+            }
           </tr>
         </thead>
         <tbody>

@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import ProductList from "../../components/ProductList"
 import { ProductManageContext } from "../../contexts/ProductManageContext"
-import ProductForm from "../../components/ProductForm"
+import ProductSpecialPriceForm from "../../components/ProductSpecialPriceForm"
 import UserPricesFilter from "../../components/UserPricesFilter"
 
 import './style.css'
@@ -21,7 +21,7 @@ export default function MainPage () {
 
         {
           selectedProduct?._id &&
-            <ProductForm />
+            <ProductSpecialPriceForm />
         }
       </div>
     </div>

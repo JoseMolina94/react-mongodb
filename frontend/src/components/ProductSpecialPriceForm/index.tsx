@@ -1,10 +1,11 @@
-import { ChangeEvent, FormEvent, useContext, useState } from "react"
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react"
 import Input from "../Commons/Input"
 import Select from "../Commons/Select"
 import { ProductManageContext } from "../../contexts/ProductManageContext"
 import { createSpecialPrice } from "../../services/specialPrices"
 
 import './style.css'
+import { SpecialPrice } from "../../types/Product"
 
 const DEF_VALUE = {
   userID: '',
@@ -12,9 +13,30 @@ const DEF_VALUE = {
   value: 0
 }
 
-export default function ProductForm() {
+export default function ProductSpecialPriceForm() {
   const [formState, setFormState] = useState<any>(DEF_VALUE)
-  const { products, users } = useContext(ProductManageContext)
+  const { 
+    products, 
+    users, 
+    specialPriceSelected, 
+    userSelected,
+    selectedProduct, 
+    setSpecialPriceSelected,
+    specialPrices
+  } = useContext(ProductManageContext)
+
+  const findExistSpecialPrice = () => {
+    const found = specialPrices.find((specialPrice: SpecialPrice) => (
+      ((specialPrice?.userID || '') === (formState?.userID || '')) &&
+      ((specialPrice?.productID || '') === (formState?.productID || ''))
+    ))
+
+    if (found) {
+      setSpecialPriceSelected(found)
+    } else {
+      setSpecialPriceSelected(null)
+    }
+  }
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -29,6 +51,8 @@ export default function ProductForm() {
       ...formState,
       [name]: value,
     })
+
+    findExistSpecialPrice()
   }
 
   const clearForm = () => {
@@ -57,6 +81,22 @@ export default function ProductForm() {
       console.error(err)
     }
   }
+
+  useEffect(() => {
+    if (specialPriceSelected?._id) {
+      setFormState(specialPriceSelected)
+    } else {
+      setFormState({
+        userID: userSelected?._id || '',
+        productID: selectedProduct?._id || '',
+        value: 0
+      })
+    }
+  }, [
+    specialPriceSelected?._id, 
+    userSelected?._id, 
+    selectedProduct?._id
+  ])
 
   return (
     <form 

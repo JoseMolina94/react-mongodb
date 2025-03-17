@@ -42,8 +42,8 @@ export default function ProductItem({ product }: ProductItemProps) {
     <tr className={`item ${(getPriceToShow() !== product?.price) && 'remark-green'}`}>
       <td className='item-cell' >{product.name}</td>
       <td className='item-cell font-xs' >{product.description}</td>
-      <td 
-        className={`item-cell ${(getPriceToShow() !== product?.price) && 'has-special-price'}` }
+      <td
+        className={`item-cell ${(getPriceToShow() !== product?.price) && 'has-special-price'}`}
       >
         {getPriceToShow()} $
       </td>
@@ -61,16 +61,21 @@ export default function ProductItem({ product }: ProductItemProps) {
           ))
         }
       </td>
+
       <td className='item-cell'>
-        <div className='actions' >
-          <button
-            className={userSelected?._id ? 'btn-update' : 'btn-create'}
-            onClick={() => selectProduct(product)}
-            type='button'
-          >
-            { userSelected?._id ? 'Editar precio personalizado' : 'Crear precio personalizado'}
-          </button>
-        </div>
+        {
+          userSelected?._id &&
+          <div className='actions' >
+            <button
+              className={(getPriceToShow() !== product?.price) ? 'btn-update' : 'btn-create'}
+              onClick={() => selectProduct(product)}
+              type='button'
+            >
+              {(getPriceToShow() !== product?.price) ? 'Editar precio personalizado' : 'Crear precio personalizado'}
+            </button>
+          </div>
+        }
+
       </td>
     </tr>
   )
